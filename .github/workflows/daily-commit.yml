@@ -17,12 +17,17 @@ jobs:
       - name: Update README
         run: |
           # Get current date
+          DAYS_SINCE=$(( ($(date +%s) - $(date -d "2025-10-10" +%s)) / 86400 ))
           DATE=$(date '+%Y-%m-%d %H:%M:%S')
           
           # Append date to README
           echo "" >> README.md
           echo "Last updated: $DATE" >> README.md
+          echo "Quote: $(curl -s https://api.quotable.io/random | jq -r .content)" >> README.md
+          echo "Days since project start: $DAYS_SINCE" >> README.md
+          echo "Progress: [$((RANDOM % 100))/100] ████████░░" >> README.md
           
+
       - name: Commit and push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
